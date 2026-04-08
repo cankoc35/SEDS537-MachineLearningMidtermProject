@@ -11,6 +11,36 @@ The project covers five core machine learning tasks:
 
 The final submission should include reproducible notebooks or Python scripts, figures and tables supporting the analysis, and a report discussing methodology, evaluation, and findings. According to the assignment brief, the deadline is **April 27, 2026 at 23:59**, and the submission archive should be named `SEDS537 Midterm <StudentID>.zip`.
 
+## Environment Setup
+
+Use Python 3.11 for the project environment:
+
+```bash
+python3.11 --version
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+If `python3.11` is not available on macOS, install it first:
+
+```bash
+brew install python@3.11
+```
+
+After activating the environment, confirm the version:
+
+```bash
+python --version
+```
+
+The expected environment is Python 3.11 with dependencies installed from `requirements.txt`.
+
+## Reproducibility
+
+Use `RANDOM_STATE = 42` from `src/common/config.py` for dataset splits and model randomness where supported. Keep preprocessing pipelines and train/test splits consistent across models unless a controlled comparison explicitly requires a change. The test set should be used only once for final evaluation.
+
 Suggested script entry points:
 
 ```bash
