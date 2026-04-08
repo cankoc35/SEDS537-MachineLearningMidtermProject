@@ -14,9 +14,114 @@
 This report documents the methods, experiments, and results for the five questions in the SEDS 537 take-home midterm.
 
 \section{Reproducibility}
-Document dataset sources, preprocessing steps, random seeds, and environment details here.
+All experiments are implemented as Python scripts and are intended to be executed from the project root. The project environment uses Python 3.11 with dependencies installed from \texttt{requirements.txt}. The environment can be recreated with the following commands:
+
+\begin{verbatim}
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+\end{verbatim}
+
+The shared random seed is defined as \texttt{RANDOM\_STATE = 42} in \texttt{src/common/config.py}. For Question 1, the same 80/20 train-test split is used across all regression experiments. The held-out test set is used only for final evaluation, while model selection for Ridge Regression is performed with 5-fold cross-validation on the training data.
+
+Preprocessing steps are implemented inside scikit-learn pipelines where applicable. This ensures that transformations such as standard scaling and polynomial feature expansion are fit only on the training data and then applied to the test data, avoiding information leakage. Generated figures and metric tables are saved under \texttt{results/figures/} and \texttt{results/tables/} so that the report outputs can be reproduced by rerunning the corresponding scripts.
+
+For Question 1, the full workflow can be reproduced with:
+
+\begin{verbatim}
+python -m src.q1_regression.run
+\end{verbatim}
 
 \section{Results}
-Add tables, figures, and discussion for each question.
+
+\subsection{Question 1: Regression - Predicting House Prices}
+
+The California Housing dataset was used for the regression task. The target variable is \texttt{MedHouseVal}. Exploratory data analysis was performed before model training to inspect feature distributions, missing values, correlations, and relationships between the input features and the target variable.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{../../results/figures/q1/histograms.png}
+    \caption{Feature distributions for the California Housing dataset.}
+    \label{fig:q1-histograms}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.85\textwidth]{../../results/figures/q1/correlation_matrix.png}
+    \caption{Correlation matrix for the California Housing dataset.}
+    \label{fig:q1-correlation-matrix}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{../../results/figures/q1/feature_scatter_plots.png}
+    \caption{Scatter plots of each feature against median house value.}
+    \label{fig:q1-feature-scatter-plots}
+\end{figure}
+
+The EDA outputs show the distribution of each feature, the linear correlations between variables, and the feature-target relationships that will guide the regression modeling and residual analysis in the next step.
+
+\subsubsection{Model Comparison}
+
+Table~\ref{tab:q1-regression-comparison} summarizes the regression performance on the held-out test set. Lower RMSE and MAE indicate smaller prediction errors, while higher $R^2$ indicates better explained variance.
+
+\begin{table}[ht]
+    \centering
+    \caption{Question 1 regression model comparison on the held-out test set.}
+    \label{tab:q1-regression-comparison}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{llrrrr}
+        \toprule
+        Model & Preprocessing & RMSE & MAE & $R^2$ & Selected Alpha \\
+        \midrule
+        Random Forest Regressor & None & 0.5039 & 0.3266 & 0.8062 & -- \\
+        Ridge Regression & None & 0.7450 & 0.5332 & 0.5764 & 10.0 \\
+        Linear Regression & None & 0.7456 & 0.5332 & 0.5758 & -- \\
+        Random Forest Regressor & Standard scaling & 0.5038 & 0.3265 & 0.8063 & -- \\
+        Ridge Regression & Standard scaling & 0.7456 & 0.5332 & 0.5758 & 0.001 \\
+        Linear Regression & Standard scaling & 0.7456 & 0.5332 & 0.5758 & -- \\
+        Polynomial Random Forest Regressor & Degree-2 polynomial & 0.5131 & 0.3345 & 0.7991 & -- \\
+        Polynomial Linear Regression & Degree-2 polynomial & 0.6814 & 0.4670 & 0.6457 & -- \\
+        Polynomial Ridge Regression & Degree-2 polynomial & 0.7478 & 0.5291 & 0.5733 & 1000.0 \\
+        \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+
+Across the compared models, the original Random Forest Regressor achieved the strongest overall performance, with the scaled Random Forest producing nearly identical results. Polynomial features improved Linear Regression, but they did not outperform the Random Forest model.
+
+\subsubsection{Impact of Standard Scaling}
+
+Standard scaling had little impact on predictive performance. Linear Regression produced almost identical RMSE, MAE, and $R^2$ values before and after scaling. This is expected because scaling changes the magnitude of the coefficients but does not substantially change the fitted linear relationship. Random Forest also showed almost no change, which is expected because tree-based models are generally not sensitive to feature scale.
+
+For Ridge Regression, scaling changed the selected alpha value from 10.0 to 0.001, showing that feature scale affected the regularization process. However, the final test performance remained very close to the unscaled Ridge model. Therefore, standard scaling improved the comparability of feature scales and affected the Ridge hyperparameter selection, but it did not lead to a meaningful improvement in predictive performance for this dataset and split.
+
+\subsubsection{Impact of Polynomial Features}
+
+Degree-2 polynomial features improved the Linear Regression model compared with the original baseline. The polynomial linear model reached an RMSE of 0.6814, MAE of 0.4670, and $R^2$ of 0.6457, while the original Linear Regression model had an RMSE of 0.7456, MAE of 0.5332, and $R^2$ of 0.5758. This suggests that the California Housing dataset contains nonlinear relationships and feature interactions that a simple linear model cannot capture.
+
+Polynomial Ridge Regression did not improve performance. Its $R^2$ was 0.5733 and the selected alpha was 1000.0, indicating that strong regularization was selected after the polynomial expansion. This likely reduced the benefit of the additional polynomial terms.
+
+The Polynomial Random Forest Regressor achieved an $R^2$ of 0.7991, which was slightly worse than the original Random Forest result of 0.8062. This is reasonable because Random Forest can already model nonlinear relationships and interactions through tree splits, so manually adding polynomial features does not necessarily help and can add unnecessary feature complexity. Overall, polynomial features were useful for the linear model, but Random Forest remained the strongest model.
+
+\subsubsection{Residual Analysis}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{../../results/figures/q1/residual_plots.png}
+    \caption{Fitted values versus residuals for representative regression models.}
+    \label{fig:q1-residual-plots}
+\end{figure}
+
+The residual plots in Figure~\ref{fig:q1-residual-plots} compare the error patterns of the main regression models using the same axis limits across subplots. With this shared scale, the vertical spread around the zero-residual line is the main feature to compare. The linear models show visible structure in their residuals, suggesting that a purely linear relationship does not fully capture the patterns in the California Housing data. The polynomial linear model reduces some of this structure, which is consistent with its improvement over the baseline Linear Regression model.
+
+The diagonal upper boundary visible in the residual plots is caused by the target variable \texttt{MedHouseVal} being capped at 5.0. Since residuals are calculated as actual value minus fitted value, the maximum possible positive residual is limited by $5.0 - \hat{y}$. This creates a downward-sloping boundary and shows that high-value districts are affected by the artificial target cap. Overall, the residual plots should be interpreted together with the metric table: Random Forest still performs best because it has the lowest RMSE and MAE and the highest $R^2$, even though some residual structure remains at higher fitted values.
+
+\subsubsection{Interpretability vs. Predictive Performance}
+
+Linear Regression and Ridge Regression are the most interpretable models because their coefficients directly describe the direction and magnitude of feature effects. However, their predictive performance was weaker, with $R^2$ values around 0.576. Polynomial Linear Regression improved performance by adding nonlinear feature interactions, reaching an $R^2$ of 0.6457, but this reduced interpretability because the model includes many transformed and interaction terms.
+
+Random Forest achieved the best predictive performance, with the lowest RMSE and MAE and the highest $R^2$ score of 0.8062. This suggests that nonlinear relationships and feature interactions are important for the California Housing dataset. The trade-off is that Random Forest is less directly interpretable than the linear models because predictions are based on many decision trees rather than a small set of coefficients. Overall, Random Forest is the preferred model for prediction, while Linear Regression and Ridge Regression are more useful for simpler interpretation.
 
 \end{document}

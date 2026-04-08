@@ -5,6 +5,12 @@ from sklearn.datasets import fetch_california_housing
 from src.common.config import DATA_DIR
 from src.common.metrics import print_section
 from src.q1_regression.eda import run_eda
+from src.q1_regression.modeling import (
+    run_baseline_models,
+    run_polynomial_models,
+    run_residual_analysis,
+    run_scaled_models,
+)
 
 
 def load_california_housing():
@@ -27,6 +33,18 @@ def main() -> None:
 
     run_eda(df)
     print("Saved EDA outputs to results/figures/q1 and results/tables/q1.")
+
+    run_baseline_models(df)
+    print("Saved baseline metrics to results/tables/q1/regression_baseline_metrics.csv.")
+
+    run_scaled_models(df)
+    print("Saved scaled metrics to results/tables/q1/regression_scaled_metrics.csv.")
+
+    run_polynomial_models(df)
+    print("Saved polynomial metrics to results/tables/q1/regression_polynomial_metrics.csv.")
+
+    run_residual_analysis(df)
+    print("Saved residual plots to results/figures/q1/residual_plots.png.")
 
 
 if __name__ == "__main__":
