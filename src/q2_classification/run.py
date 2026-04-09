@@ -45,6 +45,8 @@ def main() -> None:
     df = load_credit_card_data()
     print(f"Loaded dataset with shape: {df.shape}")
     print(f"Columns: {', '.join(df.columns)}")
+    print(f"First 5 rows:\n{df.head()}")
+    print(f"Info:\n{df.info()}")
     report_class_distribution(df)
 
 
