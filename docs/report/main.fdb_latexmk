@@ -1,10 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1775679513.04371 "/Users/cankoc/Desktop/masters/SEDS537-MachineLearning/SEDS537-MachineLearningMidtermProject/docs/report/main.tex" "main.pdf" "main" 1775679517.69474 0
-  "../../results/figures/q1/correlation_matrix.png" 1775679221.76028 327200 d3c7164a3082f63e5af61546cb710f98 ""
-  "../../results/figures/q1/feature_scatter_plots.png" 1775679222.5193 3245103 bb95eb15a06e058ca62f31174acc490f ""
-  "../../results/figures/q1/histograms.png" 1775679221.45965 379919 52286d9f25784340ce12b68db8f618ff ""
-  "../../results/figures/q1/residual_plots.png" 1775679336.28743 201289 15e5c1aa617406b6bd956c3f54721cf9 ""
-  "/Users/cankoc/Desktop/masters/SEDS537-MachineLearning/SEDS537-MachineLearningMidtermProject/docs/report/main.tex" 1775679429.22884 11150 fbbfb6bdfbf60bddd9a2f830e76b9c45 ""
+["pdflatex"] 1775732309.37644 "/Users/cankoc/Desktop/masters/SEDS537-MachineLearning/SEDS537-MachineLearningMidtermProject/docs/report/main.tex" "main.pdf" "main" 1775732313.18823 0
+  "../../results/figures/q1/correlation_matrix.png" 1775679695.16312 327200 d3c7164a3082f63e5af61546cb710f98 ""
+  "../../results/figures/q1/feature_scatter_plots.png" 1775679696.57193 3245103 bb95eb15a06e058ca62f31174acc490f ""
+  "../../results/figures/q1/histograms.png" 1775679694.52496 379919 52286d9f25784340ce12b68db8f618ff ""
+  "../../results/figures/q1/residual_plots.png" 1775679752.08495 549078 a95ff3f019b5fc781d6478d8313deb38 ""
+  "/Users/cankoc/Desktop/masters/SEDS537-MachineLearning/SEDS537-MachineLearningMidtermProject/docs/report/main.tex" 1775732309.10703 11805 6f6df4e9778fed8fa1ddcfbb9ccb1018 ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm" 1136768653 1328 c834bbb027764024c09d3d2bf908b5f0 ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm" 1136768653 1324 c910af8c371558dc20f2d7822f66fe64 ""
   "/usr/local/texlive/2025basic/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1136768653 1528 abec98dbc43e172678c11b3b9031252a ""
@@ -49,8 +49,8 @@
   "/usr/local/texlive/2025basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1766942211 134042 320ed9ffbf60c54014e0ba9d6df7f1cc ""
   "/usr/local/texlive/2025basic/texmf-var/web2c/pdftex/pdflatex.fmt" 1766925124 2663827 ac4c54294f4a1db16052331c53ef1f04 ""
   "/usr/local/texlive/2025basic/texmf.cnf" 1741448314 628 81d1ada0f601fb1ffa62f1323192d946 ""
-  "main.aux" 1775679517.65923 2548 64ea2487ccfec4c39e28067d04a66bea "pdflatex"
-  "main.tex" 1775679429.22884 11150 fbbfb6bdfbf60bddd9a2f830e76b9c45 ""
+  "main.aux" 1775732313.15188 3036 0edc98d25f3d2e723c9e423dc68459c4 "pdflatex"
+  "main.tex" 1775732309.10703 11805 6f6df4e9778fed8fa1ddcfbb9ccb1018 ""
   (generated)
   "main.aux"
   "main.log"

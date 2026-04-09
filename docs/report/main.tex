@@ -124,4 +124,34 @@ Linear Regression and Ridge Regression are the most interpretable models because
 
 Random Forest achieved the best predictive performance, with the lowest RMSE and MAE and the highest $R^2$ score of 0.8062. This suggests that nonlinear relationships and feature interactions are important for the California Housing dataset. The trade-off is that Random Forest is less directly interpretable than the linear models because predictions are based on many decision trees rather than a small set of coefficients. Overall, Random Forest is the preferred model for prediction, while Linear Regression and Ridge Regression are more useful for simpler interpretation.
 
+\subsection{Question 2: Classification - Handling Class Imbalance}
+
+\subsubsection{Dataset Description}
+
+For Question 2, the Credit Card Fraud Detection dataset was used. The dataset contains 31 columns in total: 28 anonymized PCA-transformed numerical features (\texttt{V1} to \texttt{V28}), the \texttt{Time} feature, the \texttt{Amount} feature, and the target variable \texttt{Class}. The target is binary, where \texttt{Class = 0} represents a legitimate transaction and \texttt{Class = 1} represents a fraudulent transaction.
+
+The anonymized variables \texttt{V1} to \texttt{V28} do not have direct real-world meanings because they were transformed using Principal Component Analysis (PCA) to protect sensitive financial information. However, they still retain useful information for fraud detection. The \texttt{Amount} column represents the transaction amount, while \texttt{Time} records the number of seconds elapsed since the first transaction in the dataset.
+
+\subsubsection{Class Distribution}
+
+The dataset is highly imbalanced. There are 284,315 legitimate transactions (\(99.8273\%\)) and only 492 fraudulent transactions (\(0.1727\%\)). This confirms that the fraud class is extremely underrepresented compared with the legitimate class.
+
+Such an imbalance makes accuracy alone a misleading evaluation metric, because a classifier could achieve very high accuracy by predicting almost every transaction as legitimate. For this reason, Question 2 focuses on precision, recall, F1-score, ROC-AUC, confusion matrix analysis, and resampling methods such as SMOTE and random undersampling.
+
+\subsubsection{Baseline Models}
+
+This section will compare Logistic Regression, Random Forest, and XGBoost on the original imbalanced dataset.
+
+\subsubsection{Resampling Results}
+
+This section will compare the baseline results with SMOTE oversampling and random undersampling.
+
+\subsubsection{ROC Curve and Error Analysis}
+
+This section will present ROC curves for the best-performing model and discuss the trade-off between precision and recall.
+
+\subsubsection{Discussion}
+
+This section will discuss which type of classification error is more costly in the fraud detection setting and summarize the most appropriate model choice.
+
 \end{document}

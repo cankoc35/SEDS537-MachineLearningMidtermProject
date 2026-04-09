@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  8 APR 2026 23:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  9 APR 2026 13:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -233,7 +233,9 @@ nput line 112.
 
 [4 <../../results/figures/q1/feature_scatter_plots.png>]
 
-[5 <../../results/figures/q1/residual_plots.png>] (./main.aux)
+[5 <../../results/figures/q1/residual_plots.png>]
+
+[6] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
@@ -257,10 +259,10 @@ sfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public
 lic/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on main.pdf (5 pages, 4053850 bytes).
+Output written on main.pdf (6 pages, 4059387 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
- 40 compressed objects within 1 object stream
+ 77 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
