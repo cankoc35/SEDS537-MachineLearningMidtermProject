@@ -223,4 +223,30 @@ The resampling experiments illustrate this trade-off clearly. SMOTE and random u
 
 Overall, the baseline Random Forest is the most appropriate model among the tested configurations. It achieves the best balance between fraud detection and false alarms, with high precision, strong recall, the highest F1-score, and a strong ROC-AUC. Therefore, it is the preferred model for this dataset under a balanced evaluation criterion, while a higher-recall resampled model could still be considered in a setting where minimizing false negatives is the primary objective.
 
+\subsection{Question 3: Dimensionality Reduction and Visualisation}
+
+\subsubsection{Dataset Description}
+
+For Question 3, the MNIST handwritten digit dataset is used. Each sample is a grayscale image of a digit from 0 to 9 with resolution \(28 \times 28\), which corresponds to 784 pixel features after flattening the image into a vector. This makes MNIST a high-dimensional dataset that is suitable for studying dimensionality reduction and latent-space structure.
+
+\subsubsection{PCA Analysis}
+
+This section will report PCA results for 2-dimensional and 50-dimensional representations, including the explained variance ratio for the first 10 principal components.
+
+\subsubsection{t-SNE Analysis}
+
+This section will present 2-dimensional t-SNE embeddings using perplexity values 30 and 50 and discuss how well the digit classes separate visually.
+
+\subsubsection{Embedding Visualisations}
+
+This section will include 2D scatter plots for PCA and t-SNE embeddings, with points coloured by digit label.
+
+\subsubsection{k-NN Classification Comparison}
+
+This section will compare 5-fold cross-validation accuracy for k-NN (\(k=5\)) on the original 784-dimensional features, PCA-reduced 50-dimensional features, and t-SNE 2-dimensional features.
+
+\subsubsection{Discussion}
+
+This section will compare the strengths and weaknesses of PCA and t-SNE for visualisation quality, dimensionality reduction, and downstream classification performance.
+
 \end{document}
