@@ -140,11 +140,63 @@ Such an imbalance makes accuracy alone a misleading evaluation metric, because a
 
 \subsubsection{Baseline Models}
 
-This section will compare Logistic Regression, Random Forest, and XGBoost on the original imbalanced dataset.
+An 80/20 stratified train-test split was used so that the severe class imbalance was preserved in both partitions. Three baseline classifiers were then trained on the original imbalanced training data: Logistic Regression, Random Forest, and XGBoost. Their performance on the held-out test set is summarized in Table~\ref{tab:q2-baseline-models}.
+
+\begin{table}[ht]
+    \centering
+    \caption{Question 2 baseline classifier comparison on the imbalanced test set.}
+    \label{tab:q2-baseline-models}
+    \begin{tabular}{lrrrr}
+        \toprule
+        Model & Precision & Recall & F1-score & ROC-AUC \\
+        \midrule
+        Logistic Regression & 0.8267 & 0.6327 & 0.7168 & 0.9605 \\
+        Random Forest & 0.9419 & 0.8265 & 0.8804 & 0.9623 \\
+        XGBoost & 0.9277 & 0.7857 & 0.8508 & 0.9616 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The baseline results show that the tree-based models perform substantially better than Logistic Regression on this dataset. Logistic Regression achieves a strong ROC-AUC, but its recall is only 0.6327, meaning that it misses a relatively large portion of fraudulent transactions. This is a common issue in highly imbalanced problems, where a simple linear model can separate many normal transactions well but still fail to recover enough minority-class examples.
+
+Random Forest produced the strongest baseline result overall, with the highest precision, recall, F1-score, and ROC-AUC among the three models. Its confusion matrix shows only 17 false negatives and 5 false positives on the test set, which indicates a better balance between fraud detection and avoiding unnecessary fraud alerts. XGBoost also performed strongly and clearly outperformed Logistic Regression, but it remained slightly behind Random Forest in recall and F1-score for this baseline configuration.
+
+At this stage, the main finding is that model choice already matters even before applying resampling. However, because the dataset remains extremely imbalanced, the next step is to test whether SMOTE or random undersampling can further improve minority-class detection, especially recall, without creating too many false positives.
 
 \subsubsection{Resampling Results}
 
-This section will compare the baseline results with SMOTE oversampling and random undersampling.
+SMOTE and random undersampling were both applied only to the training set after the stratified split, while the test set remained unchanged. SMOTE produced a balanced training set with 227,451 legitimate transactions and 227,451 fraudulent transactions. Random undersampling reduced the majority class down to the minority class size, producing a much smaller balanced training set with 394 legitimate transactions and 394 fraudulent transactions. Table~\ref{tab:q2-resampling-comparison} compares the baseline, SMOTE, and random undersampling results on the held-out test set.
+
+\begin{table}[ht]
+    \centering
+    \caption{Question 2 baseline, SMOTE, and random undersampling comparison on the held-out test set.}
+    \label{tab:q2-resampling-comparison}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{llrrrr}
+        \toprule
+        Model & Training Data & Precision & Recall & F1-score & ROC-AUC \\
+        \midrule
+        Logistic Regression & Original imbalanced data & 0.8267 & 0.6327 & 0.7168 & 0.9605 \\
+        Logistic Regression & SMOTE-balanced training data & 0.1341 & 0.8980 & 0.2334 & 0.9765 \\
+        Logistic Regression & Randomly undersampled training data & 0.0516 & 0.9184 & 0.0977 & 0.9752 \\
+        Random Forest & Original imbalanced data & 0.9419 & 0.8265 & 0.8804 & 0.9623 \\
+        Random Forest & SMOTE-balanced training data & 0.8265 & 0.8265 & 0.8265 & 0.9685 \\
+        Random Forest & Randomly undersampled training data & 0.0423 & 0.9184 & 0.0809 & 0.9780 \\
+        XGBoost & Original imbalanced data & 0.9277 & 0.7857 & 0.8508 & 0.9616 \\
+        XGBoost & SMOTE-balanced training data & 0.7456 & 0.8673 & 0.8019 & 0.9820 \\
+        XGBoost & Randomly undersampled training data & 0.0348 & 0.9184 & 0.0671 & 0.9741 \\
+        \bottomrule
+    \end{tabular}%
+    }
+\end{table}
+
+The resampling experiments show that both methods strongly shift the precision-recall trade-off toward higher recall. For Logistic Regression, SMOTE increased recall from 0.6327 to 0.8980, and random undersampling increased it further to 0.9184. However, precision dropped sharply to 0.1341 with SMOTE and to 0.0516 with undersampling. This caused the F1-score to fall well below the baseline value. In other words, the model found more fraud cases, but it also produced many more false alarms.
+
+For Random Forest, SMOTE did not improve the overall balance of performance. Recall remained at 0.8265, while precision dropped from 0.9419 to 0.8265, lowering the F1-score from 0.8804 to 0.8265. Random undersampling pushed recall to 0.9184, but precision collapsed to 0.0423 because the model flagged far too many legitimate transactions as fraud. As a result, the undersampled Random Forest performed much worse than both the baseline and SMOTE versions under the F1-score criterion.
+
+For XGBoost, SMOTE increased recall from 0.7857 to 0.8673 and improved ROC-AUC from 0.9616 to 0.9820. However, precision decreased from 0.9277 to 0.7456, and the F1-score fell from 0.8508 to 0.8019. Random undersampling again forced recall up to 0.9184, but precision dropped to 0.0348 and the F1-score fell to 0.0671. This indicates that the undersampled XGBoost model became far too aggressive in predicting fraud.
+
+Overall, the current results indicate that SMOTE is useful when the goal is to recover more fraud cases, especially for Logistic Regression and XGBoost, but it does not automatically improve the most balanced model. Random undersampling increased recall for all three classifiers, yet it damaged precision so severely that all three undersampled models had very poor F1-scores. Among all experiments completed so far, the baseline Random Forest still provides the strongest overall trade-off between fraud detection and false alarms.
 
 \subsubsection{ROC Curve and Error Analysis}
 

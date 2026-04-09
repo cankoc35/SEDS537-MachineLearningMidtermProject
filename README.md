@@ -23,6 +23,14 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
+On macOS, `xgboost` may also require the OpenMP runtime:
+
+```bash
+brew install libomp
+```
+
+If XGBoost fails with a `libomp.dylib` error, install `libomp` and rerun the script.
+
 If `python3.11` is not available on macOS, install it first:
 
 ```bash

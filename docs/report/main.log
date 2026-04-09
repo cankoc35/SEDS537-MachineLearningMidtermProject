@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  9 APR 2026 13:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  9 APR 2026 15:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -235,17 +235,21 @@ nput line 112.
 
 [5 <../../results/figures/q1/residual_plots.png>]
 
-[6] (./main.aux)
+[6]
+
+[7]
+
+[8] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1978 strings out of 474662
- 32950 string characters out of 5751108
- 429451 words of memory out of 5000000
- 25039 multiletter control sequences out of 15000+600000
+ 1980 strings out of 474662
+ 33004 string characters out of 5751108
+ 432493 words of memory out of 5000000
+ 25041 multiletter control sequences out of 15000+600000
  564176 words of font info for 54 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  57i,10n,65p,675b,236s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -259,10 +263,10 @@ sfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public
 lic/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on main.pdf (6 pages, 4059387 bytes).
+Output written on main.pdf (8 pages, 4063840 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
- 42 compressed objects within 1 object stream
+ 85 PDF objects out of 1000 (max. 8388607)
+ 48 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
