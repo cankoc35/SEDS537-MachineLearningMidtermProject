@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  9 APR 2026 15:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  9 APR 2026 16:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -238,18 +238,29 @@ nput line 112.
 [6]
 
 [7]
+<../../results/figures/q2/random_forest_roc_curve.png, id=43, 505.89pt x 361.35
+pt>
+File: ../../results/figures/q2/random_forest_roc_curve.png Graphic file (type p
+ng)
+<use ../../results/figures/q2/random_forest_roc_curve.png>
+Package pdftex.def Info: ../../results/figures/q2/random_forest_roc_curve.png  
+used on input line 207.
+(pdftex.def)             Requested size: 366.40834pt x 261.72668pt.
 
-[8] (./main.aux)
+
+[8 <../../results/figures/q2/random_forest_roc_curve.png>]
+
+[9] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 1980 strings out of 474662
- 33004 string characters out of 5751108
- 432493 words of memory out of 5000000
- 25041 multiletter control sequences out of 15000+600000
+ 1988 strings out of 474662
+ 33442 string characters out of 5751108
+ 432515 words of memory out of 5000000
+ 25049 multiletter control sequences out of 15000+600000
  564176 words of font info for 54 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  57i,10n,65p,675b,236s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -263,10 +274,10 @@ sfonts/cm/cmr12.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public
 lic/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/typ
 e1/public/amsfonts/cm/cmtt10.pfb>
-Output written on main.pdf (8 pages, 4063840 bytes).
+Output written on main.pdf (9 pages, 4183529 bytes).
 PDF statistics:
- 85 PDF objects out of 1000 (max. 8388607)
- 48 compressed objects within 1 object stream
+ 90 PDF objects out of 1000 (max. 8388607)
+ 50 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

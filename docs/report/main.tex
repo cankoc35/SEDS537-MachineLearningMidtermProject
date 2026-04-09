@@ -200,10 +200,27 @@ Overall, the current results indicate that SMOTE is useful when the goal is to r
 
 \subsubsection{ROC Curve and Error Analysis}
 
-This section will present ROC curves for the best-performing model and discuss the trade-off between precision and recall.
+Figure~\ref{fig:q2-random-forest-roc} shows the ROC curve for the baseline Random Forest model, which produced the strongest overall classification result among the baseline, SMOTE, and random undersampling experiments.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.78\textwidth]{../../results/figures/q2/random_forest_roc_curve.png}
+    \caption{ROC curve for the baseline Random Forest classifier on the Question 2 test set.}
+    \label{fig:q2-random-forest-roc}
+\end{figure}
+
+The ROC curve plots the true positive rate against the false positive rate across different decision thresholds. A curve closer to the top-left corner indicates better class separation, while the diagonal reference line represents random guessing. The baseline Random Forest achieved an ROC-AUC of 0.9623, which indicates strong discrimination between legitimate and fraudulent transactions.
+
+This result is consistent with the confusion matrix and F1-score analysis. The baseline Random Forest combines high precision (0.9419) with strong recall (0.8265), so it catches most fraud cases while keeping false alarms low. Compared with the resampled models, its ROC-AUC is not always the highest, but its threshold-based performance at the default decision rule is more balanced. This is why it remains the strongest overall model for the current fraud detection setup.
 
 \subsubsection{Discussion}
 
-This section will discuss which type of classification error is more costly in the fraud detection setting and summarize the most appropriate model choice.
+In the credit card fraud detection setting, there is a clear trade-off between precision and recall. A model with higher recall can identify more fraudulent transactions, but this often comes at the cost of lower precision, which means more legitimate transactions are incorrectly flagged as fraud. In practice, this trade-off matters because the two types of classification error have different business consequences.
+
+For this dataset, a false negative is generally the more costly error. A false negative means that a fraudulent transaction is missed and allowed to pass as legitimate, which can lead to direct financial loss, customer harm, and delayed fraud response. A false positive is also undesirable because it may block a legitimate transaction, inconvenience the customer, and create unnecessary review work, but this cost is usually smaller than failing to stop an actual fraudulent charge.
+
+The resampling experiments illustrate this trade-off clearly. SMOTE and random undersampling both pushed recall upward, but they did so by sharply increasing false positives and reducing precision. This behavior may be acceptable in some fraud monitoring systems where catching as many fraud cases as possible is the top priority. However, in the current experiment, the loss of precision was too severe, especially for the undersampled models, which led to much weaker F1-scores.
+
+Overall, the baseline Random Forest is the most appropriate model among the tested configurations. It achieves the best balance between fraud detection and false alarms, with high precision, strong recall, the highest F1-score, and a strong ROC-AUC. Therefore, it is the preferred model for this dataset under a balanced evaluation criterion, while a higher-recall resampled model could still be considered in a setting where minimizing false negatives is the primary objective.
 
 \end{document}
