@@ -274,7 +274,7 @@ Compared with PCA, t-SNE is expected to emphasize local neighbourhood structure 
 
 \subsubsection{Embedding Visualisations}
 
-Figure~\ref{fig:q3-pca-2d} shows the PCA 2D embedding for the full MNIST dataset. Figures~\ref{fig:q3-tsne-30} and \ref{fig:q3-tsne-50} show the t-SNE embeddings for perplexity 30 and 50, respectively.
+Figure~\ref{fig:q3-pca-2d} shows the PCA 2D embedding for the full MNIST dataset. Figure~\ref{fig:q3-tsne-comparison} compares the t-SNE embeddings for perplexity 30 and 50 side by side.
 
 \begin{figure}[ht]
     \centering
@@ -285,16 +285,19 @@ Figure~\ref{fig:q3-pca-2d} shows the PCA 2D embedding for the full MNIST dataset
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.82\textwidth]{../../results/figures/q3/tsne_2d_perplexity_30.png}
-    \caption{t-SNE 2D embedding of MNIST with perplexity 30 on a stratified 20,000-sample subset.}
-    \label{fig:q3-tsne-30}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.82\textwidth]{../../results/figures/q3/tsne_2d_perplexity_50.png}
-    \caption{t-SNE 2D embedding of MNIST with perplexity 50 on a stratified 20,000-sample subset.}
-    \label{fig:q3-tsne-50}
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../../results/figures/q3/tsne_2d_perplexity_30.png}
+        \caption*{(a) Perplexity 30}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../../results/figures/q3/tsne_2d_perplexity_50.png}
+        \caption*{(b) Perplexity 50}
+    \end{minipage}
+    \caption{t-SNE 2D embeddings of MNIST on a stratified 20,000-sample subset for perplexity values 30 and 50.}
+    \label{fig:q3-tsne-comparison}
 \end{figure}
 
 The PCA embedding reveals broad global structure, but many digit classes overlap substantially. This indicates that the first two principal components capture important variation, yet they are not sufficient for clear class separation in only two dimensions. By contrast, the t-SNE plots show much tighter local groupings and clearer class structure because t-SNE preserves neighbourhood relationships more aggressively than PCA. The overall cluster organisation is broadly similar for perplexity 30 and 50, which suggests that the main local structure is reasonably stable across these two settings.
