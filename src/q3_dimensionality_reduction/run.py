@@ -13,6 +13,9 @@ from torchvision.datasets import MNIST
 from src.common.config import DATA_DIR
 from src.common.metrics import print_section
 from src.common.plotting import figure_dir
+from src.q3_dimensionality_reduction.modeling import run_knn_accuracy_comparison
+from src.q3_dimensionality_reduction.pca_analysis import run_pca_analysis
+from src.q3_dimensionality_reduction.tsne_analysis import run_tsne_embedding, select_tsne_subset_indices
 
 
 MNIST_DIR = DATA_DIR / "raw" / "mnist"
@@ -75,6 +78,37 @@ def main() -> None:
 
     sample_path = save_sample_digits_figure(x, y)
     print(f"Saved sample digit figure to: {sample_path}")
+
+    x_pca_2d, x_pca_50d, explained_variance_df = run_pca_analysis(x, y)
+    print(f"PCA 2D shape: {x_pca_2d.shape}")
+    print(f"PCA 50D shape: {x_pca_50d.shape}")
+    print("\nExplained variance ratio for first 10 PCA components:")
+    print(explained_variance_df.round(4).to_string(index=False))
+
+    print("\nRunning t-SNE on the PCA 50D representation...")
+    x_tsne_30, y_tsne_30 = run_tsne_embedding(x_pca_50d, y, perplexity=30)
+    print(f"t-SNE 2D shape (perplexity=30): {x_tsne_30.shape}")
+    print(f"t-SNE label shape (perplexity=30): {y_tsne_30.shape}")
+
+    x_tsne_50, y_tsne_50 = run_tsne_embedding(x_pca_50d, y, perplexity=50)
+    print(f"t-SNE 2D shape (perplexity=50): {x_tsne_50.shape}")
+    print(f"t-SNE label shape (perplexity=50): {y_tsne_50.shape}")
+
+    subset_indices = select_tsne_subset_indices(y)
+    x_subset = x[subset_indices]
+    y_subset = y[subset_indices]
+    x_pca_50d_subset = x_pca_50d[subset_indices]
+
+    knn_results_df = run_knn_accuracy_comparison(
+        {
+            "Original 784D": (x_subset, y_subset),
+            "PCA 50D": (x_pca_50d_subset, y_subset),
+            "t-SNE 2D (perplexity 30)": (x_tsne_30, y_tsne_30),
+            "t-SNE 2D (perplexity 50)": (x_tsne_50, y_tsne_50),
+        }
+    )
+    print("\nk-NN (k=5) 5-fold cross-validation accuracy:")
+    print(knn_results_df.round(4).to_string(index=False))
 
 
 if __name__ == "__main__":

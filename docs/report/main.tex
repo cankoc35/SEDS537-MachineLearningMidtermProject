@@ -229,24 +229,106 @@ Overall, the baseline Random Forest is the most appropriate model among the test
 
 For Question 3, the MNIST handwritten digit dataset is used. Each sample is a grayscale image of a digit from 0 to 9 with resolution \(28 \times 28\), which corresponds to 784 pixel features after flattening the image into a vector. This makes MNIST a high-dimensional dataset that is suitable for studying dimensionality reduction and latent-space structure.
 
+The full dataset contains 70,000 samples. The feature matrix therefore has shape \(70{,}000 \times 784\), and the label vector has shape \(70{,}000\). The labels cover all ten digit classes from 0 to 9, and pixel intensities range from 0 to 255.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.78\textwidth]{../../results/figures/q3/mnist_sample_digits.png}
+    \caption{Sample MNIST handwritten digits from the ten classes.}
+    \label{fig:q3-mnist-samples}
+\end{figure}
+
 \subsubsection{PCA Analysis}
 
-This section will report PCA results for 2-dimensional and 50-dimensional representations, including the explained variance ratio for the first 10 principal components.
+PCA was applied in two settings: a 2-dimensional projection for visualisation and a 50-dimensional representation for later classification experiments. Table~\ref{tab:q3-pca-variance} reports the explained variance ratio for the first 10 principal components.
+
+\begin{table}[ht]
+    \centering
+    \caption{Explained variance ratio for the first 10 PCA components on MNIST.}
+    \label{tab:q3-pca-variance}
+    \begin{tabular}{rrr}
+        \toprule
+        Component & Explained Variance Ratio & Cumulative Explained Variance \\
+        \midrule
+        1 & 0.0975 & 0.0975 \\
+        2 & 0.0716 & 0.1690 \\
+        3 & 0.0615 & 0.2305 \\
+        4 & 0.0540 & 0.2845 \\
+        5 & 0.0489 & 0.3334 \\
+        6 & 0.0431 & 0.3765 \\
+        7 & 0.0328 & 0.4092 \\
+        8 & 0.0289 & 0.4381 \\
+        9 & 0.0276 & 0.4657 \\
+        10 & 0.0234 & 0.4891 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+These results show that the first few principal components capture a meaningful portion of the variance, but no single component dominates the representation. The first 10 components together explain about 48.9\% of the total variance, which indicates that MNIST still has substantial structure spread across many dimensions. This is one reason why PCA to only 2 dimensions cannot perfectly separate all digit classes.
 
 \subsubsection{t-SNE Analysis}
 
-This section will present 2-dimensional t-SNE embeddings using perplexity values 30 and 50 and discuss how well the digit classes separate visually.
+t-SNE was applied to obtain 2-dimensional embeddings with perplexity values 30 and 50. To keep runtime manageable while preserving class balance, a fixed stratified subset of 20,000 MNIST samples was used for the t-SNE visualisations. This subset still includes all ten digit classes in representative proportions.
+
+Compared with PCA, t-SNE is expected to emphasize local neighbourhood structure more strongly, so digits with similar shapes should cluster together more clearly in the 2D map. The two perplexity settings allow the visual structure to be compared under slightly different neighbourhood sizes.
 
 \subsubsection{Embedding Visualisations}
 
-This section will include 2D scatter plots for PCA and t-SNE embeddings, with points coloured by digit label.
+Figure~\ref{fig:q3-pca-2d} shows the PCA 2D embedding for the full MNIST dataset. Figures~\ref{fig:q3-tsne-30} and \ref{fig:q3-tsne-50} show the t-SNE embeddings for perplexity 30 and 50, respectively.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q3/pca_2d_embedding.png}
+    \caption{PCA 2D embedding of the MNIST dataset.}
+    \label{fig:q3-pca-2d}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q3/tsne_2d_perplexity_30.png}
+    \caption{t-SNE 2D embedding of MNIST with perplexity 30 on a stratified 20,000-sample subset.}
+    \label{fig:q3-tsne-30}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q3/tsne_2d_perplexity_50.png}
+    \caption{t-SNE 2D embedding of MNIST with perplexity 50 on a stratified 20,000-sample subset.}
+    \label{fig:q3-tsne-50}
+\end{figure}
+
+The PCA embedding reveals broad global structure, but many digit classes overlap substantially. This indicates that the first two principal components capture important variation, yet they are not sufficient for clear class separation in only two dimensions. By contrast, the t-SNE plots show much tighter local groupings and clearer class structure because t-SNE preserves neighbourhood relationships more aggressively than PCA. The overall cluster organisation is broadly similar for perplexity 30 and 50, which suggests that the main local structure is reasonably stable across these two settings.
 
 \subsubsection{k-NN Classification Comparison}
 
-This section will compare 5-fold cross-validation accuracy for k-NN (\(k=5\)) on the original 784-dimensional features, PCA-reduced 50-dimensional features, and t-SNE 2-dimensional features.
+To compare how useful each representation is for downstream classification, a k-NN classifier with \(k=5\) was evaluated using 5-fold cross-validation. Because the t-SNE features were computed on a fixed stratified subset of 20,000 samples, the same subset was used for the original 784-dimensional features, the PCA 50-dimensional features, and both t-SNE embeddings in order to keep the comparison fair. Table~\ref{tab:q3-knn-comparison} summarizes the resulting accuracy scores.
+
+\begin{table}[ht]
+    \centering
+    \caption{k-NN (\(k=5\)) 5-fold cross-validation accuracy comparison for Question 3.}
+    \label{tab:q3-knn-comparison}
+    \begin{tabular}{lrrrr}
+        \toprule
+        Representation & Samples & Features & Mean Accuracy & Std. Dev. \\
+        \midrule
+        t-SNE 2D (perplexity 30) & 20,000 & 2 & 0.9640 & 0.0030 \\
+        PCA 50D & 20,000 & 50 & 0.9637 & 0.0032 \\
+        t-SNE 2D (perplexity 50) & 20,000 & 2 & 0.9636 & 0.0027 \\
+        Original 784D & 20,000 & 784 & 0.9556 & 0.0038 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The classification results are notable because all reduced representations performed at least as well as, and in this experiment slightly better than, the original 784-dimensional features. PCA with 50 components preserved enough information to maintain very strong k-NN accuracy while reducing the feature dimension substantially. This suggests that much of the useful class structure in MNIST can be captured in a lower-dimensional representation.
+
+The two t-SNE embeddings also performed very strongly, with perplexity 30 producing the best mean accuracy among the tested representations. This indicates that the local neighbourhood structure learned by t-SNE aligns well with the nearest-neighbour classifier. However, this result should still be interpreted carefully, because t-SNE is primarily a visualization method and was evaluated here only on the fixed subset used to construct the embedding.
 
 \subsubsection{Discussion}
 
-This section will compare the strengths and weaknesses of PCA and t-SNE for visualisation quality, dimensionality reduction, and downstream classification performance.
+PCA and t-SNE serve different purposes, and the Question 3 results make that distinction clear. PCA is a linear dimensionality reduction method that is fast, reproducible, and easy to extend to new data. It is useful both for compact feature reduction and for giving a coarse visual summary of the global structure of the dataset. Its weakness is that the 2D embedding does not separate digit classes cleanly, because the first two principal components cannot capture all of the nonlinear variation in handwritten digits.
+
+t-SNE is much stronger for visualization. The 2D t-SNE plots are expected to show tighter and more clearly separated local digit clusters than PCA because the method is designed to preserve neighbourhood relationships. This makes t-SNE especially useful when the goal is to inspect whether similar classes form local groups in the latent space. Its weaknesses are that it is computationally expensive, sensitive to hyperparameters such as perplexity, and not naturally designed as a reusable feature extractor for new unseen samples.
+
+For downstream classification, PCA is the more practical reduction method because it produces a stable lower-dimensional representation that can easily be applied to additional data. In this experiment, PCA 50D achieved nearly the same k-NN accuracy as the best t-SNE result while remaining more efficient and easier to interpret as a dimensionality reduction pipeline. Overall, t-SNE is preferable for visualization, while PCA is the more suitable general-purpose method for dimensionality reduction and classification workflows.
 
 \end{document}
