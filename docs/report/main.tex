@@ -334,4 +334,46 @@ t-SNE is much stronger for visualization. The 2D t-SNE plots are expected to sho
 
 For downstream classification, PCA is the more practical reduction method because it produces a stable lower-dimensional representation that can easily be applied to additional data. In this experiment, PCA 50D achieved nearly the same k-NN accuracy as the best t-SNE result while remaining more efficient and easier to interpret as a dimensionality reduction pipeline. Overall, t-SNE is preferable for visualization, while PCA is the more suitable general-purpose method for dimensionality reduction and classification workflows.
 
+\subsection{Question 4: Clustering - Unsupervised Learning}
+
+\subsubsection{Dataset Description}
+
+For Question 4, the Mall Customer Segmentation dataset is used. The dataset contains 200 customer records and 5 columns: \texttt{CustomerID}, \texttt{Gender}, \texttt{Age}, \texttt{Annual Income (k\$)}, and \texttt{Spending Score (1-100)}. The goal is to discover natural customer groups without using any target labels, which makes this an unsupervised learning task.
+
+The \texttt{CustomerID} column is only an identifier and does not carry behavioural information, so it is not useful as a clustering feature. The remaining variables describe demographic and spending characteristics that can support customer segmentation. In particular, annual income and spending score are expected to be important for identifying customer groups with different purchasing behaviour.
+
+The dataset does not contain missing values, which simplifies preprocessing. However, the \texttt{Gender} feature is categorical and must be encoded before clustering, and the numeric variables should be scaled so that no single feature dominates the distance-based clustering algorithms.
+
+\subsubsection{Preprocessing}
+
+This section will describe feature selection, categorical encoding, and feature scaling for clustering.
+
+\subsubsection{K-Means Clustering}
+
+This section will present the K-Means experiments, including the elbow method, silhouette score, and the selected number of clusters.
+
+\subsubsection{Agglomerative Clustering}
+
+This section will report Agglomerative Clustering results using Ward linkage and compare them with the K-Means clusters.
+
+\subsubsection{DBSCAN Clustering}
+
+This section will present DBSCAN results, including parameter tuning using the k-distance graph and discussion of noise points.
+
+\subsubsection{Cluster Evaluation}
+
+This section will compare the clustering methods using Silhouette Score and Davies-Bouldin Index.
+
+\subsubsection{Cluster Visualisation}
+
+This section will visualise the discovered clusters using a 2D PCA projection with colour-coded cluster assignments.
+
+\subsubsection{Cluster Interpretation}
+
+This section will interpret the discovered clusters by describing the main characteristics of each customer group.
+
+\subsubsection{Discussion}
+
+This section will compare the three clustering algorithms and discuss the sensitivity of DBSCAN to its parameters and the cluster shapes found by each method.
+
 \end{document}
