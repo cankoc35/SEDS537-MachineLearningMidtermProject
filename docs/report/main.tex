@@ -346,11 +346,22 @@ The dataset does not contain missing values, which simplifies preprocessing. How
 
 \subsubsection{Preprocessing}
 
-This section will describe feature selection, categorical encoding, and feature scaling for clustering.
+Before clustering, the \texttt{CustomerID} column was removed because it is only an identifier and does not describe customer behaviour. The \texttt{Gender} feature was encoded numerically so that it could be used by the distance-based clustering algorithms. Finally, all clustering features were standard-scaled so that variables measured on different ranges, such as age, income, and spending score, would contribute more fairly to the distance calculations. The final processed feature matrix has shape \(200 \times 4\).
 
 \subsubsection{K-Means Clustering}
 
-This section will present the K-Means experiments, including the elbow method, silhouette score, and the selected number of clusters.
+K-Means was first evaluated for \(k=2\) through \(k=10\). For each value of \(k\), inertia was recorded for the elbow method and silhouette score was computed to assess cluster separation. Figure~\ref{fig:q4-kmeans-selection} summarizes these results.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{../../results/figures/q4/kmeans_model_selection.png}
+    \caption{K-Means model selection using the elbow method and silhouette score.}
+    \label{fig:q4-kmeans-selection}
+\end{figure}
+
+The inertia curve decreases steadily as \(k\) increases, which is expected because additional clusters reduce within-cluster variation. However, the curve starts to flatten around \(k=5\) to \(k=6\), which suggests a practical elbow in that region. The silhouette score rises from about 0.252 at \(k=2\) to about 0.421 at \(k=10\), but this does not automatically mean that \(k=10\) is the best practical choice because larger \(k\) values can split the customers into overly fine groups that are harder to interpret.
+
+Based on the current plot, \(k=5\) is selected as the working K-Means choice for the next step of the analysis. It is close to the elbow region and gives a more balanced customer segmentation than simply choosing the largest tested \(k\). If the goal were only to maximize silhouette score within the tested range, \(k=10\) would be preferred, but for this report \(k=5\) is the more defensible compromise between compactness and interpretability.
 
 \subsubsection{Agglomerative Clustering}
 
@@ -366,11 +377,22 @@ This section will compare the clustering methods using Silhouette Score and Davi
 
 \subsubsection{Cluster Visualisation}
 
-This section will visualise the discovered clusters using a 2D PCA projection with colour-coded cluster assignments.
+Figure~\ref{fig:q4-kmeans-pca} shows the final K-Means clustering result for \(k=5\) after projecting the scaled feature space into two dimensions using PCA. The purpose of this plot is not to replace the original four-feature clustering space, but to provide a simple visual summary of how the discovered customer groups are arranged relative to one another.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q4/kmeans_clusters_pca_k5.png}
+    \caption{Final K-Means customer clusters for \(k=5\) visualised in a 2D PCA projection.}
+    \label{fig:q4-kmeans-pca}
+\end{figure}
+
+The PCA projection shows that some groups are reasonably distinct while others still overlap, which is normal because the original clustering was performed in four dimensions and is being compressed into only two axes for visualization. Even so, the plot is useful because it confirms that the \(k=5\) solution is not just a numerical result; it also produces visible structure in the customer feature space.
 
 \subsubsection{Cluster Interpretation}
 
-This section will interpret the discovered clusters by describing the main characteristics of each customer group.
+The cluster summary indicates five interpretable customer groups. Cluster 0 contains relatively high-income and high-spending customers, which makes it the most valuable segment from a business perspective. Cluster 1 also has high income but very low spending, suggesting a cautious or under-engaged customer group. Cluster 3 is the youngest segment, with lower income but still relatively high spending, which may reflect younger active shoppers.
+
+Clusters 2 and 4 are older, moderate-income, lower-spending groups. In the current K-Means result, Cluster 2 is entirely female and Cluster 4 is entirely male. This suggests that the encoded \texttt{Gender} variable has a noticeable influence on the clustering outcome. Therefore, the discovered groups should be interpreted as a mixture of demographic and spending behaviour rather than as pure spending-based segments only.
 
 \subsubsection{Discussion}
 
