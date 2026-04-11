@@ -1,19 +1,19 @@
 # SEDS 537 Machine Learning Take-Home Midterm
 
-This repository contains the code, experiments, and report materials for the SEDS 537 take-home midterm. The assignment is individual and requires a reproducible workflow, a structured LaTeX report, and a repository link as part of the submission.
+This repository contains the code, generated outputs, and LaTeX report for the SEDS 537 take-home midterm project. The work is organized question by question so that each experiment can be rerun from script entry points under `src/`.
 
-The project covers five core machine learning tasks:
-- Regression on the California Housing dataset
-- Imbalanced classification with resampling techniques
-- Dimensionality reduction and visualization on MNIST
-- Unsupervised clustering analysis
-- Neural network comparison on Fashion-MNIST
+The assignment covers five topics:
+- Question 1: Regression on California Housing
+- Question 2: Imbalanced classification on credit card fraud data
+- Question 3: Dimensionality reduction and visualization on MNIST
+- Question 4: Clustering on Mall Customer Segmentation data
+- Question 5: Neural networks on Fashion-MNIST
 
-The final submission should include reproducible notebooks or Python scripts, figures and tables supporting the analysis, and a report discussing methodology, evaluation, and findings. According to the assignment brief, the deadline is **April 27, 2026 at 23:59**, and the submission archive should be named `SEDS537 Midterm <StudentID>.zip`.
+Assignment reference: [`docs/SEDS567_takeHome.pdf`](docs/SEDS567_takeHome.pdf)
 
-## Environment Setup
+## Quick Start
 
-Use Python 3.11 for the project environment:
+Create and activate a Python 3.11 virtual environment:
 
 ```bash
 python3.11 --version
@@ -23,47 +23,105 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-On macOS, `xgboost` may also require the OpenMP runtime:
-
-```bash
-brew install libomp
-```
-
-If XGBoost fails with a `libomp.dylib` error, install `libomp` and rerun the script.
-
-If `python3.11` is not available on macOS, install it first:
+If `python3.11` is not installed on macOS:
 
 ```bash
 brew install python@3.11
 ```
 
-After activating the environment, confirm the version:
+On macOS, `xgboost` may require OpenMP:
+
+```bash
+brew install libomp
+```
+
+After setup, confirm the interpreter:
 
 ```bash
 python --version
 ```
 
-The expected environment is Python 3.11 with dependencies installed from `requirements.txt`.
+Expected version: `Python 3.11.x`
 
-## Reproducibility
+## Important Notes
 
-Use `RANDOM_STATE = 42` from `src/common/config.py` for dataset splits and model randomness where supported. Keep preprocessing pipelines and train/test splits consistent across models unless a controlled comparison explicitly requires a change. The test set should be used only once for final evaluation.
+- Run project scripts with `python -m ...`, not `python path/to/file.py`
+- Use the virtual environment interpreter after activation
+- The project uses `RANDOM_STATE = 42` from `src/common/config.py` where applicable
+- Keep preprocessing and dataset splits consistent across models unless the comparison explicitly changes one factor
+- The test set should be used only for final evaluation
 
-Suggested script entry points:
+## Dataset Setup
+
+Place manually downloaded datasets in `data/raw/` using these filenames:
+
+- Question 1: `data/raw/california_housing.csv`
+- Question 2: `data/raw/creditcard.csv`
+- Question 4: `data/raw/Mall_Customers.csv`
+
+Datasets handled by code:
+
+- Question 3: MNIST is downloaded automatically by the script
+- Question 5: Fashion-MNIST will be downloaded automatically once the question is implemented
+
+## How To Run
+
+Run each question from the repository root:
 
 ```bash
 python -m src.q1_regression.run
 python -m src.q2_classification.run
 python -m src.q3_dimensionality_reduction.run
 python -m src.q4_clustering.run
+```
+
+Question 5 currently has only the initial scaffold:
+
+```bash
 python -m src.q5_neural_networks.run
 ```
 
-Project layout:
-- `src/` contains the implementation for each question and shared utilities in `src/common/`
-- `data/` stores raw, interim, and processed datasets
-- `results/` stores generated figures and tables
-- `docs/report/` stores the LaTeX report
-- `models/saved/` stores trained model artifacts when needed
+## What Each Script Produces
 
-Assignment reference: [`docs/SEDS567_takeHome.pdf`](docs/SEDS567_takeHome.pdf)
+- `src.q1_regression.run`
+  Generates EDA outputs, regression metric tables, and residual plots under `results/figures/q1/` and `results/tables/q1/`
+- `src.q2_classification.run`
+  Generates baseline, SMOTE, and undersampling results, confusion matrices, and ROC outputs under `results/figures/q2/` and `results/tables/q2/`
+- `src.q3_dimensionality_reduction.run`
+  Generates PCA and t-SNE plots plus k-NN comparison tables under `results/figures/q3/` and `results/tables/q3/`
+- `src.q4_clustering.run`
+  Generates K-Means, Agglomerative, and DBSCAN plots, summaries, and evaluation tables under `results/figures/q4/` and `results/tables/q4/`
+
+## Report Build
+
+The LaTeX report is stored in `docs/report/`.
+
+Compile it from the report directory:
+
+```bash
+cd docs/report
+TEXMFVAR=/tmp/texmf-var pdflatex -interaction=nonstopmode -halt-on-error main.tex
+TEXMFVAR=/tmp/texmf-var pdflatex -interaction=nonstopmode -halt-on-error main.tex
+```
+
+The second run resolves figure and table references.
+
+## Current Status
+
+- Question 1: implemented
+- Question 2: implemented
+- Question 3: implemented
+- Question 4: implemented
+- Question 5: not implemented yet
+
+## Project Layout
+
+- `src/` contains question-specific code and shared helpers under `src/common/`
+- `data/` stores raw, interim, and processed data
+- `results/` stores generated figures and tables
+- `docs/report/` contains the LaTeX report and compiled PDF
+- `models/saved/` is reserved for saved model artifacts
+
+## Submission Reminder
+
+According to the assignment brief, the submission should include the repository link, the report, and supporting code and outputs. The archive name should follow the assignment instructions exactly.
