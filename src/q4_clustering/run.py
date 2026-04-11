@@ -6,12 +6,16 @@ from src.common.config import DATA_DIR
 from src.common.metrics import print_section
 from src.q4_clustering.evaluation import evaluate_clustering
 from src.q4_clustering.modeling import (
+    compute_dbscan_k_distance_curve,
     run_final_agglomerative,
+    run_final_dbscan,
     run_final_kmeans,
     run_kmeans_model_selection,
 )
 from src.q4_clustering.plots import (
     save_agglomerative_pca_cluster_plot,
+    save_dbscan_k_distance_plot,
+    save_dbscan_pca_cluster_plot,
     save_kmeans_pca_cluster_plot,
     save_kmeans_selection_plot,
 )
@@ -21,6 +25,8 @@ from src.q4_clustering.preprocessing import prepare_clustering_features
 DATASET_FILENAME = "Mall_Customers.csv"
 FINAL_KMEANS_K = 5
 FINAL_AGGLOMERATIVE_K = 5
+DBSCAN_MIN_SAMPLES = 5
+DBSCAN_EPS = 1.0
 
 
 def load_mall_customer_data() -> pd.DataFrame:
@@ -79,9 +85,18 @@ def main() -> None:
     print(f"\nFinal K-Means cluster summary for k={FINAL_KMEANS_K}:")
     print(cluster_summary_df.to_string(index=False))
 
+    kmeans_metrics_df = evaluate_clustering(
+        x=scaled_df,
+        cluster_labels=labeled_df["Cluster"],
+        method_name="KMeans",
+    )
+    print("\nK-Means internal evaluation metrics:")
+    print(kmeans_metrics_df.to_string(index=False))
+
     print("\nSaved final K-Means outputs to:")
     print("results/tables/q4/kmeans_cluster_assignments_k5.csv")
     print("results/tables/q4/kmeans_cluster_summary_k5.csv")
+    print("results/tables/q4/kmeans_metrics.csv")
 
     save_kmeans_pca_cluster_plot(scaled_df, labeled_df["Cluster"])
     print("\nSaved final K-Means PCA cluster plot to:")
@@ -114,6 +129,47 @@ def main() -> None:
     save_agglomerative_pca_cluster_plot(scaled_df, agglomerative_labeled_df["Cluster"])
     print("\nSaved Agglomerative PCA cluster plot to:")
     print("results/figures/q4/agglomerative_clusters_pca_k5.png")
+
+    dbscan_k_distance_df = compute_dbscan_k_distance_curve(
+        x=scaled_df,
+        min_samples=DBSCAN_MIN_SAMPLES,
+    )
+    save_dbscan_k_distance_plot(
+        k_distance_df=dbscan_k_distance_df,
+        min_samples=DBSCAN_MIN_SAMPLES,
+    )
+    print(f"\nSaved DBSCAN k-distance data for min_samples={DBSCAN_MIN_SAMPLES} to:")
+    print(f"results/tables/q4/dbscan_k_distance_min_samples_{DBSCAN_MIN_SAMPLES}.csv")
+    print(f"results/figures/q4/dbscan_k_distance_min_samples_{DBSCAN_MIN_SAMPLES}.png")
+
+    dbscan_labeled_df, dbscan_summary_df = run_final_dbscan(
+        original_df=df,
+        x=scaled_df,
+        eps=DBSCAN_EPS,
+        min_samples=DBSCAN_MIN_SAMPLES,
+    )
+    print(f"\nDBSCAN cluster counts for eps={DBSCAN_EPS}, min_samples={DBSCAN_MIN_SAMPLES}:")
+    print(dbscan_labeled_df["Cluster"].value_counts().sort_index().to_string())
+
+    print(f"\nDBSCAN cluster summary for eps={DBSCAN_EPS}, min_samples={DBSCAN_MIN_SAMPLES}:")
+    print(dbscan_summary_df.to_string(index=False))
+
+    dbscan_metrics_df = evaluate_clustering(
+        x=scaled_df,
+        cluster_labels=dbscan_labeled_df["Cluster"],
+        method_name="DBSCAN",
+    )
+    print("\nDBSCAN internal evaluation metrics:")
+    print(dbscan_metrics_df.to_string(index=False))
+
+    print("\nSaved DBSCAN outputs to:")
+    print("results/tables/q4/dbscan_cluster_assignments_eps_1_0.csv")
+    print("results/tables/q4/dbscan_cluster_summary_eps_1_0.csv")
+    print("results/tables/q4/dbscan_metrics.csv")
+
+    save_dbscan_pca_cluster_plot(scaled_df, dbscan_labeled_df["Cluster"])
+    print("\nSaved DBSCAN PCA cluster plot to:")
+    print("results/figures/q4/dbscan_clusters_pca_eps_1_0.png")
 
 
 if __name__ == "__main__":

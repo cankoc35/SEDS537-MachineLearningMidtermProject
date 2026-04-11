@@ -365,15 +365,59 @@ Based on the current plot, \(k=5\) is selected as the working K-Means choice for
 
 \subsubsection{Agglomerative Clustering}
 
-This section will report Agglomerative Clustering results using Ward linkage and compare them with the K-Means clusters.
+Agglomerative Clustering was applied with Ward linkage and \(n\_clusters=5\) so that it could be compared directly with the selected K-Means solution. Figure~\ref{fig:q4-agglomerative-pca} shows the resulting cluster assignments in a 2D PCA projection.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q4/agglomerative_clusters_pca_k5.png}
+    \caption{Agglomerative Clustering with Ward linkage visualised in a 2D PCA projection.}
+    \label{fig:q4-agglomerative-pca}
+\end{figure}
+
+The Agglomerative result remains interpretable, but its clusters are slightly less compact than those from K-Means. One high-income, high-spending group is still clearly identified, and the method also separates older female and older male customer groups. However, the larger young-to-middle-age cluster is broader and more mixed, which suggests weaker separation than the K-Means partition.
 
 \subsubsection{DBSCAN Clustering}
 
-This section will present DBSCAN results, including parameter tuning using the k-distance graph and discussion of noise points.
+For DBSCAN, a k-distance graph was first used with \texttt{min\_samples=5} to choose a reasonable \(\varepsilon\) value. Figure~\ref{fig:q4-dbscan-kdistance} shows that the curve begins to bend upward more strongly around \(\varepsilon \approx 1.0\), so \(\varepsilon=1.0\) was selected as the first working value.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q4/dbscan_k_distance_min_samples_5.png}
+    \caption{DBSCAN k-distance graph used to choose \(\varepsilon\) with \texttt{min\_samples=5}.}
+    \label{fig:q4-dbscan-kdistance}
+\end{figure}
+
+Figure~\ref{fig:q4-dbscan-pca} shows the resulting DBSCAN clustering in PCA space.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q4/dbscan_clusters_pca_eps_1_0.png}
+    \caption{DBSCAN clustering result for \(\varepsilon=1.0\) and \texttt{min\_samples=5}, visualised in a 2D PCA projection.}
+    \label{fig:q4-dbscan-pca}
+\end{figure}
+
+With these parameters, DBSCAN found two main clusters and labeled 13 customers as noise. The two clusters are dominated by gender separation, with one almost entirely female and one entirely male group. This indicates that DBSCAN was very sensitive to the encoded \texttt{Gender} feature and did not recover the richer five-group customer structure found by K-Means.
 
 \subsubsection{Cluster Evaluation}
 
-This section will compare the clustering methods using Silhouette Score and Davies-Bouldin Index.
+Table~\ref{tab:q4-cluster-comparison} compares the three clustering methods using Silhouette Score and Davies-Bouldin Index. Higher silhouette scores are better, while lower Davies-Bouldin values are better.
+
+\begin{table}[ht]
+    \centering
+    \caption{Question 4 clustering method comparison.}
+    \label{tab:q4-cluster-comparison}
+    \begin{tabular}{lrrrr}
+        \toprule
+        Method & Clusters & Noise Points & Silhouette Score & Davies-Bouldin Index \\
+        \midrule
+        K-Means (\(k=5\)) & 5 & 0 & 0.3041 & 1.1672 \\
+        Agglomerative (\(k=5\)) & 5 & 0 & 0.2870 & 1.2198 \\
+        DBSCAN (\(\varepsilon=1.0\)) & 2 & 13 & 0.2544 & 3.2332 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Among the tested methods, K-Means achieved the best overall internal evaluation. It produced the highest silhouette score and the lowest Davies-Bouldin Index, which indicates the most compact and best-separated clusters among the three approaches. Agglomerative Clustering performed slightly worse but still gave a reasonable segmentation. DBSCAN was the weakest result for this dataset because it collapsed the customers into only two dense groups and produced substantially poorer separation metrics.
 
 \subsubsection{Cluster Visualisation}
 
@@ -396,6 +440,10 @@ Clusters 2 and 4 are older, moderate-income, lower-spending groups. In the curre
 
 \subsubsection{Discussion}
 
-This section will compare the three clustering algorithms and discuss the sensitivity of DBSCAN to its parameters and the cluster shapes found by each method.
+The Question 4 results show that K-Means is the strongest method for this particular dataset. The customer groups are reasonably compact, interpretable, and aligned with typical mall-segmentation patterns such as high-income/high-spending and high-income/low-spending customers. Agglomerative Clustering gives a similar but slightly weaker segmentation, while DBSCAN performs poorly under the tested setting because it mainly splits customers into two broad density groups and is strongly affected by the encoded gender feature.
+
+DBSCAN is also clearly the most sensitive method to its parameters. Small changes to \(\varepsilon\) or \texttt{min\_samples} can change the number of clusters and the number of noise points substantially. This sensitivity is one of its main weaknesses on small tabular datasets like Mall Customers, especially when the underlying groups are not very irregular in shape. By contrast, K-Means and Agglomerative Clustering are more stable here because the data structure is relatively compact and cluster-like after scaling.
+
+In terms of cluster shape, K-Means and Ward-linkage Agglomerative both prefer compact groups, which matches this dataset reasonably well. DBSCAN is more appropriate when clusters have irregular shapes or when explicit outlier detection is important. For this report, however, K-Means provides the most useful final clustering solution.
 
 \end{document}

@@ -54,6 +54,16 @@ def save_agglomerative_pca_cluster_plot(x: pd.DataFrame, cluster_labels: pd.Seri
     )
 
 
+def save_dbscan_pca_cluster_plot(x: pd.DataFrame, cluster_labels: pd.Series) -> None:
+    """Project final DBSCAN clusters to 2D with PCA and save the scatter plot."""
+    save_cluster_pca_plot(
+        x=x,
+        cluster_labels=cluster_labels,
+        output_filename="dbscan_clusters_pca_eps_1_0.png",
+        title="DBSCAN Clusters (eps=1.0, min_samples=5) in PCA 2D Space",
+    )
+
+
 def save_cluster_pca_plot(
     x: pd.DataFrame,
     cluster_labels: pd.Series,
@@ -84,6 +94,22 @@ def save_cluster_pca_plot(
     ax.set_xlabel("Principal Component 1")
     ax.set_ylabel("Principal Component 2")
     ax.legend()
+    ax.grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=300)
+    plt.close(fig)
+
+
+def save_dbscan_k_distance_plot(k_distance_df: pd.DataFrame, min_samples: int) -> None:
+    """Save the sorted k-distance graph for DBSCAN eps tuning."""
+    output_path = figure_dir("q4") / f"dbscan_k_distance_min_samples_{min_samples}.png"
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+    ax.plot(k_distance_df["PointIndex"], k_distance_df["KDistance"], linewidth=1.8)
+    ax.set_title(f"DBSCAN k-Distance Graph (min_samples={min_samples})")
+    ax.set_xlabel("Sorted Points")
+    ax.set_ylabel(f"Distance to {min_samples}th Nearest Neighbor")
     ax.grid(True, alpha=0.3)
 
     fig.tight_layout()
