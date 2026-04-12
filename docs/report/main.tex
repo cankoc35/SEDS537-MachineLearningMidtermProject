@@ -460,9 +460,9 @@ Fashion-MNIST is a grayscale image dataset containing 10 classes of clothing ite
 
 For this project, the dataset is downloaded through \texttt{torchvision}. A fixed train/validation split was created from the original training set, producing 55{,}000 training images and 5{,}000 validation images. This fixed split will be reused for both the MLP and CNN experiments so that the model comparison remains fair and reproducible.
 
-\subsubsection{Current Implementation Status}
+\subsubsection{Model Setup}
 
-The basic Question 5 pipeline has been set up. The dataset loader is working, the class names are recorded, and a sample image grid was generated to verify that the data is being read correctly. Figure~\ref{fig:q5-sample-grid} shows example Fashion-MNIST images from the training set.
+Figure~\ref{fig:q5-sample-grid} shows example Fashion-MNIST images from the training set and provides a quick visual check that the dataset has been loaded correctly.
 
 \begin{figure}[ht]
     \centering
@@ -471,23 +471,97 @@ The basic Question 5 pipeline has been set up. The dataset loader is working, th
     \label{fig:q5-sample-grid}
 \end{figure}
 
-Two model definitions have also been prepared in PyTorch. The MLP follows the assignment structure with two hidden layers of 256 and 128 neurons, ReLU activations, and dropout with rate 0.3. The CNN architecture has also been defined with two convolutional layers and pooling, but the full CNN experiment has not yet been completed at this stage of the report.
+Two model definitions were implemented in PyTorch. The MLP follows the assignment structure with two hidden layers of 256 and 128 neurons, ReLU activations, and dropout rate 0.3. The CNN uses two convolutional layers with ReLU activations and max-pooling, followed by flattening and a dense output layer. Both models were trained with the same fixed 55{,}000/5{,}000 train/validation split, the same Adam optimizer family, the same cross-entropy loss, and the same early-stopping-based training pipeline so that the comparison would remain fair. A batch size of 128 was used, and training was allowed to continue for up to 15 epochs with early stopping patience set to 3.
 
-\subsubsection{Initial MLP Training Results}
+\subsubsection{Training Curves and Overfitting Behaviour}
 
-The reusable training pipeline has been implemented with PyTorch DataLoaders, validation monitoring, and early stopping support. An initial MLP training run was completed on the fixed 55{,}000/5{,}000 train/validation split. The resulting training history was saved and plotted, as shown in Figure~\ref{fig:q5-mlp-curves}.
+The reusable training pipeline was implemented with PyTorch DataLoaders, validation monitoring, and early stopping support. Figure~\ref{fig:q5-training-curves} compares the saved training curves for the MLP and CNN.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\textwidth]{../../results/figures/q5/mlp_training_curves.png}
-    \caption{Initial MLP training and validation curves for Fashion-MNIST.}
-    \label{fig:q5-mlp-curves}
+    \includegraphics[width=0.95\textwidth]{../../results/figures/q5/mlp_training_curves.png}
+    
+    \caption*{(a) MLP}
+    
+    \includegraphics[width=0.95\textwidth]{../../results/figures/q5/cnn_training_curves.png}
+    
+    \caption*{(b) CNN}
+    \caption{Training and validation curves for the Fashion-MNIST MLP and CNN models.}
+    \label{fig:q5-training-curves}
 \end{figure}
 
-The current MLP history shows steady improvement during training. In the latest saved epoch, the training loss reached 0.2880 and the validation loss was 0.3381, while training accuracy reached 0.8925 and validation accuracy reached 0.8784. This indicates that the basic MLP is already learning meaningful class structure from the Fashion-MNIST images, although some gap remains between training and validation performance.
+Both models improved steadily during training, but the CNN learned faster and reached a better validation level. In the final recorded MLP epoch, training accuracy was 0.8962 and validation accuracy was 0.8858, while in the final recorded CNN epoch, training accuracy was 0.9456 and validation accuracy was 0.9146. This shows that the CNN fit the training data more strongly and also generalized better to the validation set.
 
-\subsubsection{Next Steps}
+Regarding overfitting, both models show the expected gap between training and validation performance, but the gap is larger for the CNN. The CNN therefore overfits slightly more in relative terms, which is not surprising because it is the more expressive model. However, the important point is that its validation loss and validation accuracy are still clearly better than those of the MLP, so the extra model capacity is beneficial rather than harmful in this case. There is no evidence of severe overfitting collapse, because the validation curves remain stable and do not degrade sharply near the end of training.
 
-At the current stage, Question 5 is only partially complete. The next steps are to finish the full CNN training run, evaluate both models on the same test set using Accuracy and Macro-F1, generate confusion matrices, collect misclassified examples, and then compare the overfitting behaviour and final performance of MLP versus CNN.
+\subsubsection{Test-Set Evaluation}
+
+Table~\ref{tab:q5-metrics-comparison} reports the final test-set Accuracy and Macro-F1 for both models.
+
+\begin{table}[ht]
+    \centering
+    \caption{Question 5 test-set performance comparison.}
+    \label{tab:q5-metrics-comparison}
+    \begin{tabular}{lrr}
+        \toprule
+        Model & Accuracy & Macro-F1 \\
+        \midrule
+        MLP & 0.8858 & 0.8851 \\
+        CNN & 0.9150 & 0.9150 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+The CNN outperformed the MLP on both evaluation metrics. The improvement is meaningful rather than marginal: the CNN achieved about 3 percentage points higher accuracy and also improved Macro-F1 by a similar amount. Because Macro-F1 gives equal weight to every class, this result indicates that the CNN is not only better on the easiest categories, but also more balanced across the full set of clothing classes.
+
+\subsubsection{Confusion Matrix Analysis}
+
+Figure~\ref{fig:q5-confusion-matrices} shows the confusion matrices for both models.
+
+\begin{figure}[ht]
+    \centering
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../../results/figures/q5/mlp_confusion_matrix.png}
+        \caption*{(a) MLP}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{../../results/figures/q5/cnn_confusion_matrix.png}
+        \caption*{(b) CNN}
+    \end{minipage}
+    \caption{Confusion matrices for the Fashion-MNIST MLP and CNN models.}
+    \label{fig:q5-confusion-matrices}
+\end{figure}
+
+The confusion matrices show that both models perform well on distinct classes such as \texttt{Trouser}, \texttt{Bag}, and \texttt{Sandal}, but they struggle more on visually similar upper-body clothing categories such as \texttt{T-shirt/top}, \texttt{Shirt}, \texttt{Pullover}, and \texttt{Coat}. This is expected because these categories share similar silhouettes and overlapping grayscale textures.
+
+The CNN reduces several important error patterns seen in the MLP. For example, the MLP correctly classified 798 \texttt{Pullover} images, while the CNN correctly classified 899. The \texttt{Shirt} class remains difficult for both models, but the CNN still improves the number of correct \texttt{Shirt} predictions from 654 to 758. A similar improvement is visible for \texttt{Trouser}, where the CNN reaches 992 correct classifications compared with 962 for the MLP. These changes are consistent with the overall metric improvement and suggest that the CNN extracts more useful visual features for fine-grained clothing distinctions.
+
+\subsubsection{Misclassified Examples}
+
+Figure~\ref{fig:q5-misclassified} shows example test images that were misclassified by the two models.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\textwidth]{../../results/figures/q5/mlp_misclassified_examples.png}
+    
+    \caption*{(a) MLP}
+    
+    \includegraphics[width=0.95\textwidth]{../../results/figures/q5/cnn_misclassified_examples.png}
+    
+    \caption*{(b) CNN}
+    \caption{Misclassified Fashion-MNIST examples for the MLP and CNN models.}
+    \label{fig:q5-misclassified}
+\end{figure}
+
+These errors are mostly understandable. Many misclassified images appear visually ambiguous even to a human observer when shown in \(28 \times 28\) grayscale resolution. Common reasons include similar global shape, similar sleeve or collar structure, lack of fine texture detail, and low-resolution boundaries between related clothing categories. In particular, \texttt{Shirt}, \texttt{T-shirt/top}, \texttt{Pullover}, and \texttt{Coat} are naturally difficult to separate at this image size.
+
+\subsubsection{Final Comparison: Why CNN Performs Better}
+
+The final comparison clearly favors the CNN. The main reason is architectural: the MLP treats the image as a flat vector of 784 values, so it loses the explicit 2D spatial arrangement of pixels. The CNN, by contrast, preserves local spatial structure and learns filters that respond to useful visual patterns such as edges, corners, contours, and localized texture changes. Pooling then helps compress these learned features while retaining important shape information.
+
+This makes CNNs more appropriate for image data in general. Clothing categories in Fashion-MNIST differ by local patterns and spatial layout, not just by raw pixel intensity values taken independently. The CNN can exploit that structure directly, which is why it achieves better validation performance, better test performance, and fewer confusion errors across visually similar classes. Overall, the Question 5 results confirm the standard expectation that CNNs are more suitable than MLPs for image classification tasks.
 
 \end{document}

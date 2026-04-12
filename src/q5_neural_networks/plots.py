@@ -5,6 +5,7 @@ import matplotlib
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 from src.common.plotting import figure_dir
 from src.q5_neural_networks.data import CLASS_NAMES
@@ -50,6 +51,42 @@ def save_training_history_plot(history_df, model_name: str) -> None:
     axes[1].legend()
     axes[1].grid(True, alpha=0.3)
 
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=300)
+    plt.close(fig)
+
+
+def save_misclassified_examples_plot(examples: list[dict], model_name: str) -> None:
+    """Save a row of misclassified Fashion-MNIST examples for one model."""
+    output_path = figure_dir("q5") / f"{model_name.lower()}_misclassified_examples.png"
+
+    num_examples = len(examples)
+    fig, axes = plt.subplots(1, num_examples, figsize=(3 * num_examples, 3.5))
+
+    if num_examples == 1:
+        axes = [axes]
+
+    for ax, example in zip(axes, examples):
+        ax.imshow(example["image"].squeeze(0), cmap="gray")
+        true_name = CLASS_NAMES[example["true_label"]]
+        predicted_name = CLASS_NAMES[example["predicted_label"]]
+        ax.set_title(f"True: {true_name}\nPred: {predicted_name}", fontsize=9)
+        ax.axis("off")
+
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=300)
+    plt.close(fig)
+
+
+def save_confusion_matrix_heatmap(confusion_df, model_name: str) -> None:
+    """Save a confusion matrix heatmap for one model."""
+    output_path = figure_dir("q5") / f"{model_name.lower()}_confusion_matrix.png"
+
+    fig, ax = plt.subplots(figsize=(9, 7))
+    sns.heatmap(confusion_df, cmap="Blues", annot=False, fmt="d", cbar=True, ax=ax)
+    ax.set_title(f"{model_name} Confusion Matrix")
+    ax.set_xlabel("Predicted Label")
+    ax.set_ylabel("True Label")
     fig.tight_layout()
     fig.savefig(output_path, dpi=300)
     plt.close(fig)

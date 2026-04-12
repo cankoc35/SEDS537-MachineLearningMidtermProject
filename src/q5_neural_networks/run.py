@@ -5,13 +5,25 @@ import torch
 from src.common.config import RESULTS_DIR
 from src.common.metrics import print_section
 from src.q5_neural_networks.data import (
+    CLASS_NAMES,
     build_dataloaders,
     build_train_validation_split,
     inspect_fashion_mnist,
     load_fashion_mnist_datasets,
 )
+from src.q5_neural_networks.evaluation import (
+    classification_metrics,
+    collect_misclassified_examples,
+    confusion_matrix_frame,
+    predict_labels,
+)
 from src.q5_neural_networks.models import CNNClassifier, MLPClassifier
-from src.q5_neural_networks.plots import save_fashion_mnist_sample_grid, save_training_history_plot
+from src.q5_neural_networks.plots import (
+    save_confusion_matrix_heatmap,
+    save_fashion_mnist_sample_grid,
+    save_misclassified_examples_plot,
+    save_training_history_plot,
+)
 from src.q5_neural_networks.training import fit_model, get_device
 
 
@@ -98,6 +110,44 @@ def main() -> None:
     print("results/figures/q5/cnn_training_curves.png")
     print("\nLast recorded CNN epoch:")
     print(cnn_history_df.tail(1).to_string(index=False))
+
+    mlp_y_true, mlp_y_pred = predict_labels(mlp_model, test_loader, device)
+    mlp_metrics_df = classification_metrics(mlp_y_true, mlp_y_pred)
+    mlp_confusion_df = confusion_matrix_frame(mlp_y_true, mlp_y_pred, CLASS_NAMES)
+    mlp_metrics_df.to_csv(table_dir / "mlp_test_metrics.csv", index=False)
+    mlp_confusion_df.to_csv(table_dir / "mlp_confusion_matrix.csv")
+    save_confusion_matrix_heatmap(mlp_confusion_df, model_name="MLP")
+
+    print("\nSaved MLP test evaluation to:")
+    print("results/tables/q5/mlp_test_metrics.csv")
+    print("results/tables/q5/mlp_confusion_matrix.csv")
+    print("results/figures/q5/mlp_confusion_matrix.png")
+    print("\nMLP test metrics:")
+    print(mlp_metrics_df.to_string(index=False))
+
+    mlp_misclassified_examples = collect_misclassified_examples(mlp_model, test_loader, device, max_examples=5)
+    save_misclassified_examples_plot(mlp_misclassified_examples, model_name="MLP")
+    print("\nSaved MLP misclassified examples to:")
+    print("results/figures/q5/mlp_misclassified_examples.png")
+
+    cnn_y_true, cnn_y_pred = predict_labels(cnn_model, test_loader, device)
+    cnn_metrics_df = classification_metrics(cnn_y_true, cnn_y_pred)
+    cnn_confusion_df = confusion_matrix_frame(cnn_y_true, cnn_y_pred, CLASS_NAMES)
+    cnn_metrics_df.to_csv(table_dir / "cnn_test_metrics.csv", index=False)
+    cnn_confusion_df.to_csv(table_dir / "cnn_confusion_matrix.csv")
+    save_confusion_matrix_heatmap(cnn_confusion_df, model_name="CNN")
+
+    print("\nSaved CNN test evaluation to:")
+    print("results/tables/q5/cnn_test_metrics.csv")
+    print("results/tables/q5/cnn_confusion_matrix.csv")
+    print("results/figures/q5/cnn_confusion_matrix.png")
+    print("\nCNN test metrics:")
+    print(cnn_metrics_df.to_string(index=False))
+
+    cnn_misclassified_examples = collect_misclassified_examples(cnn_model, test_loader, device, max_examples=5)
+    save_misclassified_examples_plot(cnn_misclassified_examples, model_name="CNN")
+    print("\nSaved CNN misclassified examples to:")
+    print("results/figures/q5/cnn_misclassified_examples.png")
 
 
 if __name__ == "__main__":

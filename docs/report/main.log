@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  12 APR 2026 17:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  12 APR 2026 18:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -358,23 +358,73 @@ File: ../../results/figures/q5/mlp_training_curves.png Graphic file (type png)
 <use ../../results/figures/q5/mlp_training_curves.png>
 Package pdftex.def Info: ../../results/figures/q5/mlp_training_curves.png  used
  on input line 482.
-(pdftex.def)             Requested size: 469.75502pt x 156.58607pt.
+(pdftex.def)             Requested size: 446.26582pt x 148.75655pt.
+<../../results/figures/q5/cnn_training_curves.png, id=101, 867.24pt x 289.08pt>
+
+File: ../../results/figures/q5/cnn_training_curves.png Graphic file (type png)
+<use ../../results/figures/q5/cnn_training_curves.png>
+Package pdftex.def Info: ../../results/figures/q5/cnn_training_curves.png  used
+ on input line 486.
+(pdftex.def)             Requested size: 446.26582pt x 148.75655pt.
 
 
-[19 <../../results/figures/q5/mlp_training_curves.png>] (./main.aux)
+[19 <../../results/figures/q5/mlp_training_curves.png> <../../results/figures/q
+5/cnn_training_curves.png>]
+<../../results/figures/q5/mlp_confusion_matrix.png, id=108, 650.43pt x 505.89pt
+>
+File: ../../results/figures/q5/mlp_confusion_matrix.png Graphic file (type png)
+
+<use ../../results/figures/q5/mlp_confusion_matrix.png>
+Package pdftex.def Info: ../../results/figures/q5/mlp_confusion_matrix.png  use
+d on input line 525.
+(pdftex.def)             Requested size: 230.18253pt x 179.03255pt.
+<../../results/figures/q5/cnn_confusion_matrix.png, id=109, 650.43pt x 505.89pt
+>
+File: ../../results/figures/q5/cnn_confusion_matrix.png Graphic file (type png)
+
+<use ../../results/figures/q5/cnn_confusion_matrix.png>
+Package pdftex.def Info: ../../results/figures/q5/cnn_confusion_matrix.png  use
+d on input line 531.
+(pdftex.def)             Requested size: 230.18253pt x 179.03255pt.
+
+
+[20 <../../results/figures/q5/mlp_confusion_matrix.png> <../../results/figures/
+q5/cnn_confusion_matrix.png>]
+<../../results/figures/q5/mlp_misclassified_examples.png, id=115, 1084.05pt x 2
+52.945pt>
+File: ../../results/figures/q5/mlp_misclassified_examples.png Graphic file (typ
+e png)
+<use ../../results/figures/q5/mlp_misclassified_examples.png>
+Package pdftex.def Info: ../../results/figures/q5/mlp_misclassified_examples.pn
+g  used on input line 548.
+(pdftex.def)             Requested size: 446.26582pt x 104.12881pt.
+<../../results/figures/q5/cnn_misclassified_examples.png, id=116, 1084.05pt x 2
+52.945pt>
+File: ../../results/figures/q5/cnn_misclassified_examples.png Graphic file (typ
+e png)
+<use ../../results/figures/q5/cnn_misclassified_examples.png>
+Package pdftex.def Info: ../../results/figures/q5/cnn_misclassified_examples.pn
+g  used on input line 552.
+(pdftex.def)             Requested size: 446.26582pt x 104.12881pt.
+
+
+[21 <../../results/figures/q5/mlp_misclassified_examples.png> <../../results/fi
+gures/q5/cnn_misclassified_examples.png>]
+
+[22] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2082 strings out of 474662
- 38338 string characters out of 5751108
- 432828 words of memory out of 5000000
- 25142 multiletter control sequences out of 15000+600000
+ 2120 strings out of 474662
+ 40451 string characters out of 5751108
+ 432900 words of memory out of 5000000
+ 25180 multiletter control sequences out of 15000+600000
  564474 words of font info for 55 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 57i,10n,65p,675b,290s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,10n,65p,701b,290s stack positions out of 10000i,1000n,20000p,200000b,200000s
  </tmp/texmf-var/fonts/pk/ljfour/jknappen/ec/tctt1095.600pk></usr/local/texli
 ve/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/t
 exlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/loc
@@ -386,10 +436,10 @@ pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 msy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmtt10.pfb>
-Output written on main.pdf (19 pages, 12162372 bytes).
+Output written on main.pdf (22 pages, 12791352 bytes).
 PDF statistics:
- 149 PDF objects out of 1000 (max. 8388607)
- 76 compressed objects within 1 object stream
+ 168 PDF objects out of 1000 (max. 8388607)
+ 82 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 81 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 106 words of extra memory for PDF output out of 10000 (max. 10000000)
 

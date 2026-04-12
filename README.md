@@ -62,7 +62,7 @@ Place manually downloaded datasets in `data/raw/` using these filenames:
 Datasets handled by code:
 
 - Question 3: MNIST is downloaded automatically by the script
-- Question 5: Fashion-MNIST will be downloaded automatically once the question is implemented
+- Question 5: Fashion-MNIST is downloaded automatically by the script
 
 ## How To Run
 
@@ -73,11 +73,6 @@ python -m src.q1_regression.run
 python -m src.q2_classification.run
 python -m src.q3_dimensionality_reduction.run
 python -m src.q4_clustering.run
-```
-
-Question 5 currently has only the initial scaffold:
-
-```bash
 python -m src.q5_neural_networks.run
 ```
 
@@ -91,6 +86,8 @@ python -m src.q5_neural_networks.run
   Generates PCA and t-SNE plots plus k-NN comparison tables under `results/figures/q3/` and `results/tables/q3/`
 - `src.q4_clustering.run`
   Generates K-Means, Agglomerative, and DBSCAN plots, summaries, and evaluation tables under `results/figures/q4/` and `results/tables/q4/`
+- `src.q5_neural_networks.run`
+  Generates Fashion-MNIST sample images, training curves, test metrics, confusion matrices, and misclassified-example figures under `results/figures/q5/` and `results/tables/q5/`
 
 ## Report Build
 
@@ -112,7 +109,7 @@ The second run resolves figure and table references.
 - Question 2: implemented
 - Question 3: implemented
 - Question 4: implemented
-- Question 5: not implemented yet
+- Question 5: implemented
 
 ## Project Layout
 
