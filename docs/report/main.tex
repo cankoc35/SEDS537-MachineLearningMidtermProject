@@ -446,4 +446,48 @@ DBSCAN is also clearly the most sensitive method to its parameters. Small change
 
 In terms of cluster shape, K-Means and Ward-linkage Agglomerative both prefer compact groups, which matches this dataset reasonably well. DBSCAN is more appropriate when clusters have irregular shapes or when explicit outlier detection is important. For this report, however, K-Means provides the most useful final clustering solution.
 
+\subsection{Question 5: Neural Networks - MLP vs. CNN on Images}
+
+\subsubsection{Introduction and Objective}
+
+Question 5 focuses on image classification with neural networks using the Fashion-MNIST dataset. The main goal is to compare a Multilayer Perceptron (MLP) and a Convolutional Neural Network (CNN) under the same train/validation split and training procedure. This comparison is important because it highlights the difference between treating images as flattened vectors and treating them as structured 2D inputs.
+
+The purpose of this question is not only to measure classification performance, but also to understand why CNNs are generally more appropriate for image data. An MLP ignores spatial structure after flattening the image into a one-dimensional vector, while a CNN can learn local visual patterns such as edges, textures, and shapes directly from the 2D image layout.
+
+\subsubsection{Dataset Description}
+
+Fashion-MNIST is a grayscale image dataset containing 10 classes of clothing items. Each image has size \(28 \times 28\), so a flattened image contains 784 pixel values. The dataset includes 60{,}000 training images and 10{,}000 test images. The class labels are \texttt{T-shirt/top}, \texttt{Trouser}, \texttt{Pullover}, \texttt{Dress}, \texttt{Coat}, \texttt{Sandal}, \texttt{Shirt}, \texttt{Sneaker}, \texttt{Bag}, and \texttt{Ankle boot}.
+
+For this project, the dataset is downloaded through \texttt{torchvision}. A fixed train/validation split was created from the original training set, producing 55{,}000 training images and 5{,}000 validation images. This fixed split will be reused for both the MLP and CNN experiments so that the model comparison remains fair and reproducible.
+
+\subsubsection{Current Implementation Status}
+
+The basic Question 5 pipeline has been set up. The dataset loader is working, the class names are recorded, and a sample image grid was generated to verify that the data is being read correctly. Figure~\ref{fig:q5-sample-grid} shows example Fashion-MNIST images from the training set.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.82\textwidth]{../../results/figures/q5/fashion_mnist_sample_grid.png}
+    \caption{Sample images from the Fashion-MNIST training set.}
+    \label{fig:q5-sample-grid}
+\end{figure}
+
+Two model definitions have also been prepared in PyTorch. The MLP follows the assignment structure with two hidden layers of 256 and 128 neurons, ReLU activations, and dropout with rate 0.3. The CNN architecture has also been defined with two convolutional layers and pooling, but the full CNN experiment has not yet been completed at this stage of the report.
+
+\subsubsection{Initial MLP Training Results}
+
+The reusable training pipeline has been implemented with PyTorch DataLoaders, validation monitoring, and early stopping support. An initial MLP training run was completed on the fixed 55{,}000/5{,}000 train/validation split. The resulting training history was saved and plotted, as shown in Figure~\ref{fig:q5-mlp-curves}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{../../results/figures/q5/mlp_training_curves.png}
+    \caption{Initial MLP training and validation curves for Fashion-MNIST.}
+    \label{fig:q5-mlp-curves}
+\end{figure}
+
+The current MLP history shows steady improvement during training. In the latest saved epoch, the training loss reached 0.2880 and the validation loss was 0.3381, while training accuracy reached 0.8925 and validation accuracy reached 0.8784. This indicates that the basic MLP is already learning meaningful class structure from the Fashion-MNIST images, although some gap remains between training and validation performance.
+
+\subsubsection{Next Steps}
+
+At the current stage, Question 5 is only partially complete. The next steps are to finish the full CNN training run, evaluate both models on the same test set using Accuracy and Macro-F1, generate confusion matrices, collect misclassified examples, and then compare the overfitting behaviour and final performance of MLP versus CNN.
+
 \end{document}

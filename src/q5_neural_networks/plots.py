@@ -26,3 +26,30 @@ def save_fashion_mnist_sample_grid(train_dataset, num_examples: int = 10) -> Non
     fig.tight_layout()
     fig.savefig(output_path, dpi=300)
     plt.close(fig)
+
+
+def save_training_history_plot(history_df, model_name: str) -> None:
+    """Save train/validation loss and accuracy curves for one model."""
+    output_path = figure_dir("q5") / f"{model_name.lower()}_training_curves.png"
+
+    fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+
+    axes[0].plot(history_df["epoch"], history_df["train_loss"], label="Train Loss")
+    axes[0].plot(history_df["epoch"], history_df["validation_loss"], label="Validation Loss")
+    axes[0].set_title(f"{model_name} Loss")
+    axes[0].set_xlabel("Epoch")
+    axes[0].set_ylabel("Loss")
+    axes[0].legend()
+    axes[0].grid(True, alpha=0.3)
+
+    axes[1].plot(history_df["epoch"], history_df["train_accuracy"], label="Train Accuracy")
+    axes[1].plot(history_df["epoch"], history_df["validation_accuracy"], label="Validation Accuracy")
+    axes[1].set_title(f"{model_name} Accuracy")
+    axes[1].set_xlabel("Epoch")
+    axes[1].set_ylabel("Accuracy")
+    axes[1].legend()
+    axes[1].grid(True, alpha=0.3)
+
+    fig.tight_layout()
+    fig.savefig(output_path, dpi=300)
+    plt.close(fig)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  11 APR 2026 09:17
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  12 APR 2026 17:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -340,17 +340,38 @@ sed on input line 428.
 
 [16 <../../results/figures/q4/dbscan_clusters_pca_eps_1_0.png>]
 
-[17 <../../results/figures/q4/kmeans_clusters_pca_k5.png>] (./main.aux)
+[17 <../../results/figures/q4/kmeans_clusters_pca_k5.png>]
+<../../results/figures/q5/fashion_mnist_sample_grid.png, id=95, 722.7pt x 361.3
+5pt>
+File: ../../results/figures/q5/fashion_mnist_sample_grid.png Graphic file (type
+ png)
+<use ../../results/figures/q5/fashion_mnist_sample_grid.png>
+Package pdftex.def Info: ../../results/figures/q5/fashion_mnist_sample_grid.png
+  used on input line 469.
+(pdftex.def)             Requested size: 385.20255pt x 192.6008pt.
+
+
+[18 <../../results/figures/q5/fashion_mnist_sample_grid.png>]
+<../../results/figures/q5/mlp_training_curves.png, id=100, 867.24pt x 289.08pt>
+
+File: ../../results/figures/q5/mlp_training_curves.png Graphic file (type png)
+<use ../../results/figures/q5/mlp_training_curves.png>
+Package pdftex.def Info: ../../results/figures/q5/mlp_training_curves.png  used
+ on input line 482.
+(pdftex.def)             Requested size: 469.75502pt x 156.58607pt.
+
+
+[19 <../../results/figures/q5/mlp_training_curves.png>] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 2066 strings out of 474662
- 37489 string characters out of 5751108
- 432778 words of memory out of 5000000
- 25126 multiletter control sequences out of 15000+600000
+ 2082 strings out of 474662
+ 38338 string characters out of 5751108
+ 432828 words of memory out of 5000000
+ 25142 multiletter control sequences out of 15000+600000
  564474 words of font info for 55 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  57i,10n,65p,675b,290s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -365,10 +386,10 @@ pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
 8.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/cm/c
 msy10.pfb></usr/local/texlive/2025basic/texmf-dist/fonts/type1/public/amsfonts/
 cm/cmtt10.pfb>
-Output written on main.pdf (17 pages, 11885769 bytes).
+Output written on main.pdf (19 pages, 12162372 bytes).
 PDF statistics:
- 138 PDF objects out of 1000 (max. 8388607)
- 71 compressed objects within 1 object stream
+ 149 PDF objects out of 1000 (max. 8388607)
+ 76 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 71 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 81 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import torch
-from torch.utils.data import Dataset, random_split
+from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision import datasets, transforms
 
 from src.common.config import DATA_DIR, RANDOM_STATE
@@ -13,6 +13,7 @@ FASHION_MNIST_DIR = DATA_DIR / "raw" / "fashion_mnist"
 TRAIN_SIZE = 55_000
 VALIDATION_SIZE = 5_000
 IMAGE_SIZE = 28 * 28
+BATCH_SIZE = 128
 CLASS_NAMES = [
     "T-shirt/top",
     "Trouser",
@@ -53,6 +54,19 @@ def build_train_validation_split(train_dataset: Dataset) -> tuple[Dataset, Datas
     """Create a fixed train/validation split for fair model comparison."""
     generator = torch.Generator().manual_seed(RANDOM_STATE)
     return random_split(train_dataset, [TRAIN_SIZE, VALIDATION_SIZE], generator=generator)
+
+
+def build_dataloaders(
+    train_subset: Dataset,
+    validation_subset: Dataset,
+    test_dataset: Dataset,
+    batch_size: int = BATCH_SIZE,
+) -> tuple[DataLoader, DataLoader, DataLoader]:
+    """Create train, validation, and test dataloaders."""
+    train_loader = DataLoader(train_subset, batch_size=batch_size, shuffle=True, num_workers=0)
+    validation_loader = DataLoader(validation_subset, batch_size=batch_size, shuffle=False, num_workers=0)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False, num_workers=0)
+    return train_loader, validation_loader, test_loader
 
 
 def inspect_fashion_mnist(train_dataset: Dataset, test_dataset: Dataset) -> None:
