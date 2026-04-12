@@ -103,14 +103,6 @@ TEXMFVAR=/tmp/texmf-var pdflatex -interaction=nonstopmode -halt-on-error main.te
 
 The second run resolves figure and table references.
 
-## Current Status
-
-- Question 1: implemented
-- Question 2: implemented
-- Question 3: implemented
-- Question 4: implemented
-- Question 5: implemented
-
 ## Project Layout
 
 - `src/` contains question-specific code and shared helpers under `src/common/`
