@@ -111,6 +111,3 @@ The second run resolves figure and table references.
 - `docs/report/` contains the LaTeX report and compiled PDF
 - `models/saved/` is reserved for saved model artifacts
 
-## Submission Reminder
-
-According to the assignment brief, the submission should include the repository link, the report, and supporting code and outputs. The archive name should follow the assignment instructions exactly.
