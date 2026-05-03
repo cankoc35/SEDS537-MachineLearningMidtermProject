@@ -76,10 +76,10 @@ INPUT ../../results/figures/q1/feature_scatter_plots.png
 INPUT ../../results/figures/q1/feature_scatter_plots.png
 INPUT ../../results/figures/q1/feature_scatter_plots.png
 INPUT ../../results/figures/q1/feature_scatter_plots.png
-INPUT /usr/local/texlive/2025basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT /usr/local/texlive/2025basic/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /usr/local/texlive/2025basic/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm
 INPUT /usr/local/texlive/2025basic/texmf-dist/fonts/tfm/public/cm/cmsy10.tfm
+INPUT /usr/local/texlive/2025basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map
 INPUT ../../results/figures/q1/residual_plots.png
 INPUT ../../results/figures/q1/residual_plots.png
 INPUT ../../results/figures/q1/residual_plots.png
